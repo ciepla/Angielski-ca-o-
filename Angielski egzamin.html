@@ -1,0 +1,1481 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Angielski – egzamin</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, #eef2ff, #f8fafc);
+        color: #172033;
+      }
+      .wrap {
+        max-width: 980px;
+        margin: auto;
+        padding: 24px;
+      }
+      h1 {
+        font-size: 24px;
+        margin: 0 0 18px;
+      }
+      h2 {
+        font-size: 19px;
+        margin: 0 0 4px;
+      }
+      .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+      }
+      .tab-btn {
+        border: 2px solid #dbe3ef;
+        background: #fff;
+        color: #687386;
+        border-radius: 14px;
+        padding: 12px 18px;
+        font-weight: 800;
+        font-size: 15px;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .tab-btn:hover {
+        border-color: #93c5fd;
+      }
+      .tab-btn.active {
+        background: #2563eb;
+        border-color: #2563eb;
+        color: #fff;
+      }
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #dbe3ef;
+        border-radius: 22px;
+        box-shadow: 0 14px 38px rgba(30, 41, 59, 0.1);
+        padding: 22px;
+        margin-bottom: 22px;
+      }
+      .subtitle {
+        color: #687386;
+        font-size: 14px;
+        margin-bottom: 16px;
+      }
+      .item-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid #f1f5f9;
+        flex-wrap: wrap;
+      }
+      .item-row:last-child {
+        border-bottom: none;
+      }
+      .item-text {
+        flex: 1;
+        min-width: 220px;
+        font-size: 15.5px;
+      }
+      select {
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 2px solid #dbe3ef;
+        font-size: 15px;
+        font-weight: 700;
+        background: #fff;
+        min-width: 150px;
+      }
+      select.correct {
+        border-color: #16a34a;
+        background: #dcfce7;
+      }
+      select.wrong {
+        border-color: #dc2626;
+        background: #fee2e2;
+      }
+      .mark {
+        font-weight: 800;
+        min-width: 22px;
+        text-align: center;
+      }
+      .tf-buttons {
+        display: flex;
+        gap: 8px;
+      }
+      .tf-btn {
+        border: 2px solid #dbe3ef;
+        background: #fff;
+        border-radius: 10px;
+        padding: 8px 14px;
+        font-weight: 800;
+        cursor: pointer;
+        color: #687386;
+      }
+      .tf-btn.selected {
+        background: #2563eb;
+        border-color: #2563eb;
+        color: #fff;
+      }
+      .tf-btn.correct {
+        background: #16a34a;
+        border-color: #16a34a;
+        color: #fff;
+      }
+      .tf-btn.wrong {
+        background: #dc2626;
+        border-color: #dc2626;
+        color: #fff;
+      }
+      .diabetes-text {
+        font-size: 16px;
+        line-height: 2.1;
+      }
+      .diabetes-text select {
+        margin: 0 3px;
+      }
+      button.ctrl {
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 18px;
+        font-weight: 800;
+        cursor: pointer;
+        background: #2563eb;
+        color: white;
+        margin-top: 14px;
+      }
+      button.ctrl.secondary {
+        background: #e5e7eb;
+        color: #111827;
+      }
+      .result-box {
+        display: none;
+        margin-top: 14px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-weight: 800;
+      }
+      .result-box.show {
+        display: block;
+      }
+      .result-box.good {
+        background: #dcfce7;
+        color: #166534;
+      }
+      .result-box.mid {
+        background: #fef9c3;
+        color: #713f12;
+      }
+      .result-box.bad {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+      /* ---- quiz (Part 2) styles ---- */
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 14px;
+        color: #687386;
+        font-weight: 700;
+      }
+      .progress {
+        height: 10px;
+        background: #e5e7eb;
+        border-radius: 999px;
+        overflow: hidden;
+        margin: 14px 0 22px;
+      }
+      .progress span {
+        display: block;
+        height: 100%;
+        background: #2563eb;
+        width: 0%;
+        transition: 0.25s;
+      }
+      .q {
+        font-size: 20px;
+        line-height: 1.38;
+        font-weight: 800;
+        margin: 8px 0 18px;
+      }
+      .answers {
+        display: grid;
+        gap: 12px;
+      }
+      .answer {
+        width: 100%;
+        text-align: left;
+        border: 2px solid #e5e7eb;
+        background: #fff;
+        border-radius: 15px;
+        padding: 14px 16px;
+        font-size: 17px;
+        line-height: 1.35;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .answer:hover {
+        border-color: #93c5fd;
+        background: #eff6ff;
+      }
+      .answer.correct {
+        border-color: #16a34a;
+        background: #dcfce7;
+      }
+      .answer.wrong {
+        border-color: #dc2626;
+        background: #fee2e2;
+      }
+      .answer:disabled {
+        cursor: default;
+      }
+      .feedback {
+        display: none;
+        margin-top: 16px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        font-weight: 800;
+      }
+      .feedback.ok {
+        display: block;
+        background: #dcfce7;
+        color: #166534;
+      }
+      .feedback.bad {
+        display: block;
+        background: #fee2e2;
+        color: #991b1b;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .stat {
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 12px;
+        text-align: center;
+      }
+      .stat b {
+        display: block;
+        font-size: 22px;
+      }
+      .pill {
+        background: #fff;
+        border: 1px solid #dbe3ef;
+        border-radius: 999px;
+        padding: 8px 12px;
+        color: #687386;
+        font-weight: 700;
+        display: inline-block;
+        margin-bottom: 14px;
+      }
+      @media (max-width: 640px) {
+        .wrap {
+          padding: 14px;
+        }
+        .q {
+          font-size: 18px;
+        }
+        .answer {
+          font-size: 15px;
+        }
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        .item-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        select {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Angielski – egzamin</h1>
+
+      <div class="tabs">
+        <button class="tab-btn active" id="tabBtn_t1" data-target="t1">Task 1</button>
+        <button class="tab-btn" id="tabBtn_t2" data-target="t2">Task 2</button>
+        <button class="tab-btn" id="tabBtn_t3" data-target="t3">Task 3</button>
+        <button class="tab-btn" id="tabBtn_t4" data-target="t4">Task 4</button>
+        <button class="tab-btn" id="tabBtn_part2" data-target="part2">Part 2 (30 pytań)</button>
+      </div>
+
+      <!-- ============ ZAKŁADKA: Task 1 ============ -->
+      <div class="tab-panel active" id="tabPanel_t1">
+
+        <div class="card">
+          <h2>Task 1 (część 1)</h2>
+          <div class="subtitle">Dopasuj początek zdania do zakończenia. Jedno zakończenie jest zbędne.</div>
+          <div id="task1a_items"></div>
+          <button class="ctrl" id="task1a_check">Sprawdź</button>
+          <div class="result-box" id="task1a_result"></div>
+        </div>
+
+        <div class="card">
+          <h2>Task 1 (część 2)</h2>
+          <div class="subtitle">Dopasuj początek zdania do zakończenia. Jedno zakończenie jest zbędne.</div>
+          <div id="task1b_items"></div>
+          <button class="ctrl" id="task1b_check">Sprawdź</button>
+          <div class="result-box" id="task1b_result"></div>
+        </div>
+
+      </div>
+
+      <!-- ============ ZAKŁADKA: Task 2 ============ -->
+      <div class="tab-panel" id="tabPanel_t2">
+        <div class="card">
+          <h2>Task 2</h2>
+          <div class="subtitle">Dopasuj słowo z listy do definicji. Dwa słowa są zbędne.</div>
+          <div id="task2_items"></div>
+          <button class="ctrl" id="task2_check">Sprawdź</button>
+          <div class="result-box" id="task2_result"></div>
+        </div>
+      </div>
+
+      <!-- ============ ZAKŁADKA: Task 3 ============ -->
+      <div class="tab-panel" id="tabPanel_t3">
+        <div class="card">
+          <h2>Task 3 — True / False</h2>
+          <div class="subtitle">Zaznacz, czy zdanie jest prawdziwe czy fałszywe.</div>
+          <div id="task3_items"></div>
+          <button class="ctrl" id="task3_check">Sprawdź</button>
+          <div class="result-box" id="task3_result"></div>
+        </div>
+      </div>
+
+      <!-- ============ ZAKŁADKA: Task 4 ============ -->
+      <div class="tab-panel" id="tabPanel_t4">
+        <div class="card">
+          <h2>Task 4 — Diabetes</h2>
+          <div class="subtitle">Uzupełnij tekst, wybierając A, B lub C.</div>
+          <div class="diabetes-text" id="task4_text"></div>
+          <button class="ctrl" id="task4_check">Sprawdź</button>
+          <div class="result-box" id="task4_result"></div>
+        </div>
+      </div>
+
+      <!-- ============ ZAKŁADKA: Part 2 ============ -->
+      <div class="tab-panel" id="tabPanel_part2">
+        <div class="pill"><span id="totalCount_p2"></span> pytań</div>
+        <div class="card">
+          <div class="topbar">
+            <div id="counter_p2"></div>
+            <div id="scoreBox_p2"></div>
+          </div>
+          <div class="progress"><span id="bar_p2"></span></div>
+          <div class="q" id="question_p2"></div>
+          <div class="answers" id="answers_p2"></div>
+          <div id="feedback_p2" class="feedback"></div>
+          <div style="margin:15px 0;text-align:center;">
+            <input type="number" id="gotoQuestion_p2" min="1" placeholder="Nr pytania"
+              style="width:100px;padding:8px;border-radius:8px;border:1px solid #ccc;">
+            <button class="ctrl" id="gotoBtn_p2">Przejdź</button>
+          </div>
+          <div class="controls">
+            <button class="ctrl secondary" id="prevBtn_p2">Wstecz</button>
+            <button class="ctrl" id="nextBtn_p2">Następne</button>
+            <button class="ctrl secondary" id="shuffleBtn_p2">Wymieszaj pytania</button>
+            <button class="ctrl secondary" id="restartBtn_p2">Restart</button>
+          </div>
+          <div class="stats">
+            <div class="stat"><b id="good_p2">0</b>dobrze</div>
+            <div class="stat"><b id="bad_p2">0</b>źle</div>
+            <div class="stat"><b id="percent_p2">0%</b>wynik</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+    let tasksData = {
+  "task1a": {
+    "items": [
+      {
+        "num": 1,
+        "text": "Help the patient (pójść do toalety)"
+      },
+      {
+        "num": 2,
+        "text": "Make sure the patient (bierze leki)"
+      },
+      {
+        "num": 3,
+        "text": "Assist the patient (przy myciu i ubieraniu)"
+      },
+      {
+        "num": 4,
+        "text": "Check if the patient (je bez trudności)"
+      },
+      {
+        "num": 5,
+        "text": "Encourage the patient (do poruszania się regularnie)"
+      }
+    ],
+    "options": [
+      {
+        "letter": "A",
+        "text": "with washing and dressing"
+      },
+      {
+        "letter": "B",
+        "text": "takes their medication"
+      },
+      {
+        "letter": "C",
+        "text": "to move regularly"
+      },
+      {
+        "letter": "D",
+        "text": "swallows their medicines after meals"
+      },
+      {
+        "letter": "E",
+        "text": "to go to the toilet"
+      },
+      {
+        "letter": "F",
+        "text": "can eat without difficulty"
+      }
+    ],
+    "correct": {
+      "1": "E",
+      "2": "B",
+      "3": "A",
+      "4": "F",
+      "5": "C"
+    }
+  },
+  "task1b": {
+    "items": [
+      {
+        "num": 1,
+        "text": "Assist the patient (przy czynnościach dnia codziennego)"
+      },
+      {
+        "num": 2,
+        "text": "Encourage the patient (do „uruchomienia” się ruchowo tak szybko, jak to możliwe)"
+      },
+      {
+        "num": 3,
+        "text": "Ensure the patient (ma odpowiednie leczenie)"
+      },
+      {
+        "num": 4,
+        "text": "Remind the patient (przyjmować leki regularnie)"
+      },
+      {
+        "num": 5,
+        "text": "Observe the patient (w zmianach stanu zdrowia)"
+      }
+    ],
+    "options": [
+      {
+        "letter": "A",
+        "text": "to mobilise as soon as possible"
+      },
+      {
+        "letter": "B",
+        "text": "to take their medication regularly"
+      },
+      {
+        "letter": "C",
+        "text": "with their rehabilitation"
+      },
+      {
+        "letter": "D",
+        "text": "for changes in their condition"
+      },
+      {
+        "letter": "E",
+        "text": "is receiving the correct treatment"
+      },
+      {
+        "letter": "F",
+        "text": "with activities of daily living"
+      }
+    ],
+    "correct": {
+      "1": "F",
+      "2": "A",
+      "3": "E",
+      "4": "B",
+      "5": "D"
+    }
+  },
+  "task2": {
+    "items": [
+      {
+        "num": 1,
+        "text": "_____, or PACU is where patients go to wake up after an operation."
+      },
+      {
+        "num": 2,
+        "text": "Patients often need to breathe using an oxygen mask until they recover from the _____."
+      },
+      {
+        "num": 3,
+        "text": "_____ is a medication which stops patients vomiting or feeling sick."
+      },
+      {
+        "num": 4,
+        "text": "Medicine taken by mouth or by injection which stops pain is called _____."
+      },
+      {
+        "num": 5,
+        "text": "_____ means: into the subcutaneous layer under the skin."
+      },
+      {
+        "num": 6,
+        "text": "_____ pain feels like fire."
+      },
+      {
+        "num": 7,
+        "text": "_____ wound is red, painful and swollen."
+      },
+      {
+        "num": 8,
+        "text": "Somebody who is _____ cannot control when urine or faeces come out of their body."
+      },
+      {
+        "num": 9,
+        "text": "The rate at which a person breathes in and out (expressed as breaths per minute) is called _____."
+      },
+      {
+        "num": 10,
+        "text": "_____ is excessive softness caused by too much moisture."
+      }
+    ],
+    "word_bank": [
+      "maceration",
+      "expiration",
+      "subcut injection",
+      "Recovery",
+      "anti-emetic",
+      "analgesia",
+      "CCU (Coronary Care Unit)",
+      "respiratory rate",
+      "anaesthetic",
+      "burning",
+      "incontinent",
+      "inflamed"
+    ],
+    "correct": {
+      "1": "Recovery",
+      "2": "anaesthetic",
+      "3": "anti-emetic",
+      "4": "analgesia",
+      "5": "subcut injection",
+      "6": "burning",
+      "7": "inflamed",
+      "8": "incontinent",
+      "9": "respiratory rate",
+      "10": "maceration"
+    }
+  },
+  "task3": {
+    "items": [
+      {
+        "num": 1,
+        "text": "If a nurse wants to give an injection to the patient, she needs a disposable syringe and needle, an alcohol wipe and gauze.",
+        "correct": "TRUE"
+      },
+      {
+        "num": 2,
+        "text": "A hypersensitivity to something, for example a food or drug, is called stroke.",
+        "correct": "FALSE"
+      },
+      {
+        "num": 3,
+        "text": "In a hospital, a porter is responsible for administering medication to patients.",
+        "correct": "FALSE"
+      },
+      {
+        "num": 4,
+        "text": "Nurse: Are you feeling nauseous? Patient: Yes, I don't feel like eating. From the conversation it follows that the patient is hungry.",
+        "correct": "FALSE"
+      },
+      {
+        "num": 5,
+        "text": "Before a medical procedure, for example surgery, the patient must sign the consent form.",
+        "correct": "TRUE"
+      },
+      {
+        "num": 6,
+        "text": "Digital blood pressure monitor measures blood pressure automatically.",
+        "correct": "TRUE"
+      },
+      {
+        "num": 7,
+        "text": "In a hospital, a porter is responsible for giving medication to patients.",
+        "correct": "FALSE"
+      },
+      {
+        "num": 8,
+        "text": "Nurse: Is the pain dull or sharp? Patient: It's dull and constant. The pain comes and goes.",
+        "correct": "FALSE"
+      },
+      {
+        "num": 9,
+        "text": "Nurse: Are you feeling nauseous? Patient: Yes, I don't feel like eating. The patient is very hungry.",
+        "correct": "FALSE"
+      },
+      {
+        "num": 10,
+        "text": "A \"slide sheet\" is a piece of equipment used to help move a patient in bed.",
+        "correct": "TRUE"
+      }
+    ]
+  },
+  "task4": {
+    "text_parts": [
+      "People with ",
+      "1",
+      " have difficulty controlling the amount of glucose in their blood. The ",
+      "2",
+      " is an organ that produces insulin, a hormone that helps glucose enter the body's cells and be used as ",
+      "3",
+      ". When insulin levels are too low, blood sugar may rise and lead to ",
+      "4",
+      ", which means glucose is present in the urine.",
+      "||",
+      "If a person takes too much insulin or skips a meal, they may develop ",
+      "5",
+      ", a condition in which blood sugar levels become dangerously low. Common symptoms include sweating, shaking and dizziness. In severe cases, the patient may need a ",
+      "6",
+      " to quickly reduce blood glucose levels.",
+      "||",
+      "When the body cannot use glucose properly, it begins to break down fat for energy. This process produces ",
+      "7",
+      ". High levels of these substances may lead to ",
+      "8",
+      ", a serious complication of diabetes. To manage their condition, some patients use insulin ",
+      "9",
+      ", while others take oral medication. Regular monitoring of the ",
+      "10",
+      " is essential for effective treatment."
+    ],
+    "options": {
+      "1": [
+        "diabetes",
+        "glycosuria",
+        "diabetic ketoacidosis"
+      ],
+      "2": [
+        "liver",
+        "pancreas",
+        "spleen"
+      ],
+      "3": [
+        "waste",
+        "fuel",
+        "tissue"
+      ],
+      "4": [
+        "ketosis",
+        "glycosuria",
+        "acidosis"
+      ],
+      "5": [
+        "hyperglycaemia",
+        "hypoglycaemia",
+        "necrosis"
+      ],
+      "6": [
+        "hypoglycaemic agent",
+        "insulin",
+        "analgesia"
+      ],
+      "7": [
+        "enzymes",
+        "ketones",
+        "antibodies"
+      ],
+      "8": [
+        "diabetic ketoacidosis",
+        "haematuria",
+        "hypertension"
+      ],
+      "9": [
+        "catheters",
+        "inhalers",
+        "pumps"
+      ],
+      "10": [
+        "BSL",
+        "BMI",
+        "CNS"
+      ]
+    },
+    "correct": {
+      "1": "A",
+      "2": "B",
+      "3": "B",
+      "4": "B",
+      "5": "B",
+      "6": "A",
+      "7": "B",
+      "8": "A",
+      "9": "C",
+      "10": "A"
+    }
+  }
+};
+    let questionsPart2 = [
+  {
+    "nr": 1,
+    "orig": 1,
+    "question": "How does the heart work, according to the patient information leaflet?",
+    "answers": [
+      "It produces oxygen for the blood",
+      "It filters toxins from the blood",
+      "It pumps blood through chambers and valves to the lungs and body"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 2,
+    "orig": 2,
+    "question": "What are the main parts of the heart mentioned in the leaflet?",
+    "answers": [
+      "Brain, spine, and lungs",
+      "Atria, ventricles, valves, pulmonary artery, and aorta",
+      "Muscles, bones, and nerves"
+    ],
+    "correct": 1,
+    "page": 1
+  },
+  {
+    "nr": 3,
+    "orig": 3,
+    "question": "What symptoms might a person have if there isn't enough blood flow through the heart?",
+    "answers": [
+      "Energy levels",
+      "Increased appetite",
+      "Chest pain and shortness of breath"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 4,
+    "orig": 4,
+    "question": "What do nurses check first in Recovery?",
+    "answers": [
+      "If the patient is hungry",
+      "If the patient needs an x-ray",
+      "If the patient is alert and oriented"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 5,
+    "orig": 5,
+    "question": "Where do nurses record the IV infusion details?",
+    "answers": [
+      "Patient's bedside chart",
+      "Nurse's personal notebook",
+      "Fluid Balance Chart"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 6,
+    "orig": 6,
+    "question": "Before a surgeon starts an operation, a patient must get.........",
+    "answers": [
+      "a dressing",
+      "an appointment",
+      "an anaesthetic"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 7,
+    "orig": 7,
+    "question": "Other cancers which grow away from the main tumour are referred to as ….",
+    "answers": [
+      "scars",
+      "stretchmarks",
+      "secondaries"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 8,
+    "orig": 8,
+    "question": "'Tingling' means in Polish ……",
+    "answers": [
+      "drętwienie",
+      "kłucie",
+      "mrowienie"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 9,
+    "orig": 9,
+    "question": "A walking ……. is a type of mobility aid that gives you support when walking.",
+    "answers": [
+      "bar",
+      "frame",
+      "hoist"
+    ],
+    "correct": 1,
+    "page": 1
+  },
+  {
+    "nr": 10,
+    "orig": 10,
+    "question": "What is \"an injury to the skin\"?",
+    "answers": [
+      "bandage",
+      "dressing",
+      "wound"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 11,
+    "orig": 11,
+    "question": "How would you best describe a patient who cannot fully control their bladder or urine?",
+    "answers": [
+      "elderly",
+      "sensitive",
+      "incontinent (of urine)"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 12,
+    "orig": 12,
+    "question": "Which of the following terms refers to injections given under the skin?",
+    "answers": [
+      "GP",
+      "SC",
+      "dose"
+    ],
+    "correct": 1,
+    "page": 1
+  },
+  {
+    "nr": 13,
+    "orig": 13,
+    "question": "What does it mean necrosis?",
+    "answers": [
+      "death of cells and living tissue",
+      "expired medicine",
+      "oxygen"
+    ],
+    "correct": 0,
+    "page": 1
+  },
+  {
+    "nr": 14,
+    "orig": 14,
+    "question": "Which of the following is the correct way to administer medication orally?",
+    "answers": [
+      "Injecting the medication directly into the bloodstream",
+      "Applying the medication to the skin surface",
+      "Swallowing the medication with water"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 15,
+    "orig": 15,
+    "question": "What is the meaning of \"hypoglycaemia\"?",
+    "answers": [
+      "High level of sugar in the blood",
+      "Low level of sugar in the blood",
+      "Presence of glucose in the urine"
+    ],
+    "correct": 1,
+    "page": 1
+  },
+  {
+    "nr": 16,
+    "orig": 16,
+    "question": "Yellow liquid that comes out of the wound is referred to as …",
+    "answers": [
+      "sputum",
+      "haemorrhage",
+      "pus"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 17,
+    "orig": 17,
+    "question": "…. means 'red, painful and swollen'.",
+    "answers": [
+      "inflamed",
+      "nauseous",
+      "itchy"
+    ],
+    "correct": 0,
+    "page": 1
+  },
+  {
+    "nr": 18,
+    "orig": 18,
+    "question": "Stitches used to sew up a cut are called …… .",
+    "answers": [
+      "syringes",
+      "sutures",
+      "swab"
+    ],
+    "correct": 1,
+    "page": 1
+  },
+  {
+    "nr": 19,
+    "orig": 19,
+    "question": "A(n) …… is a group of cells with a similar function and structure.",
+    "answers": [
+      "organ",
+      "system",
+      "tissue"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 20,
+    "orig": 20,
+    "question": "A physician who works in a surgery and whose practice covers all areas of health problems is called a(n) ..",
+    "answers": [
+      "surgeon",
+      "obstetrician",
+      "general practitioner"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 21,
+    "orig": 21,
+    "question": "Which of the following is a key responsibility of nurses in the rehabilitation process?",
+    "answers": [
+      "Prescribing medications",
+      "Encouraging and assisting patients with self-care activities",
+      "Performing surgical procedures"
+    ],
+    "correct": 1,
+    "page": 1
+  },
+  {
+    "nr": 22,
+    "orig": 22,
+    "question": "What is the purpose of range of motion (ROM) exercises in rehabilitation?",
+    "answers": [
+      "To enhance verbal communication skills",
+      "To improve joint flexibility and prevent stiffness",
+      "To increase appetite"
+    ],
+    "correct": 1,
+    "page": 1
+  },
+  {
+    "nr": 23,
+    "orig": 23,
+    "question": "What is a side effect?",
+    "answers": [
+      "The intended effect of a drug",
+      "An unintended reaction",
+      "The main purpose of the medication"
+    ],
+    "correct": 1,
+    "page": 1
+  },
+  {
+    "nr": 24,
+    "orig": 24,
+    "question": "Which of the following imaging techniques is most effective for detecting brain tumors?",
+    "answers": [
+      "CT scan",
+      "X-ray",
+      "MRI"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 25,
+    "orig": 25,
+    "question": "What does the abbreviation \"appt\" mean?",
+    "answers": [
+      "Appointment",
+      "Registered Nurse",
+      "Patient"
+    ],
+    "correct": 0,
+    "page": 1
+  },
+  {
+    "nr": 26,
+    "orig": 26,
+    "question": "Which part of the respiratory system is located behind the nose and mouth and connects them to the windpipe?",
+    "answers": [
+      "Alveoli",
+      "Pharynx",
+      "Bronchus"
+    ],
+    "correct": 1,
+    "page": 1
+  },
+  {
+    "nr": 27,
+    "orig": 27,
+    "question": "Which of the following is a route of administration?",
+    "answers": [
+      "Prescription",
+      "Intramuscular",
+      "Side effect"
+    ],
+    "correct": 1,
+    "page": 1
+  },
+  {
+    "nr": 28,
+    "orig": 28,
+    "question": "What does the abbreviation 'PRN' mean on a medication chart?",
+    "answers": [
+      "As soon as possible",
+      "Before meals",
+      "When necessary"
+    ],
+    "correct": 2,
+    "page": 1
+  },
+  {
+    "nr": 29,
+    "orig": 29,
+    "question": "Which of the following is a possible side effect of medication?",
+    "answers": [
+      "Pain relief",
+      "Nausea",
+      "Healing"
+    ],
+    "correct": 1,
+    "page": 1
+  },
+  {
+    "nr": 30,
+    "orig": 30,
+    "question": "What is the correct term for checking the name and dose before giving a drug?",
+    "answers": [
+      "Verification",
+      "Administration",
+      "Observation"
+    ],
+    "correct": 0,
+    "page": 1
+  }
+];
+    /* ======================= TABY ======================= */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tabPanel_' + btn.dataset.target).classList.add('active');
+  });
+});
+
+function escapeHtml(s) {
+  return String(s).replace(
+    /[&<>"']/g,
+    (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[m]
+  );
+}
+
+/* ======================= TASK 1a / 1b (matching, dropdown) ======================= */
+function buildMatchingTask(key) {
+  const data = tasksData[key];
+  const container = document.getElementById(key + '_items');
+  container.innerHTML = '';
+  data.items.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    const label = document.createElement('div');
+    label.className = 'item-text';
+    label.innerHTML = `<b>${item.num}.</b> ${escapeHtml(item.text)}`;
+    const select = document.createElement('select');
+    select.id = key + '_select_' + item.num;
+    const optDefault = document.createElement('option');
+    optDefault.value = '';
+    optDefault.textContent = '-- wybierz --';
+    select.appendChild(optDefault);
+    data.options.forEach(opt => {
+      const o = document.createElement('option');
+      o.value = opt.letter;
+      o.textContent = opt.letter + '. ' + opt.text;
+      select.appendChild(o);
+    });
+    const mark = document.createElement('span');
+    mark.className = 'mark';
+    mark.id = key + '_mark_' + item.num;
+    row.appendChild(label);
+    row.appendChild(select);
+    row.appendChild(mark);
+    container.appendChild(row);
+  });
+
+  document.getElementById(key + '_check').onclick = () => {
+    let correctCount = 0;
+    data.items.forEach(item => {
+      const sel = document.getElementById(key + '_select_' + item.num);
+      const mark = document.getElementById(key + '_mark_' + item.num);
+      const correctLetter = data.correct[String(item.num)];
+      sel.classList.remove('correct', 'wrong');
+      if (sel.value === correctLetter) {
+        sel.classList.add('correct');
+        mark.textContent = '✅';
+        correctCount++;
+      } else {
+        sel.classList.add('wrong');
+        mark.textContent = '❌ (' + correctLetter + ')';
+      }
+    });
+    showResult(key, correctCount, data.items.length);
+  };
+}
+
+/* ======================= TASK 2 (matching, dropdown, word bank) ======================= */
+function buildTask2() {
+  const data = tasksData.task2;
+  const container = document.getElementById('task2_items');
+  container.innerHTML = '';
+  data.items.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    const label = document.createElement('div');
+    label.className = 'item-text';
+    label.innerHTML = `<b>${item.num}.</b> ${escapeHtml(item.text)}`;
+    const select = document.createElement('select');
+    select.id = 'task2_select_' + item.num;
+    const optDefault = document.createElement('option');
+    optDefault.value = '';
+    optDefault.textContent = '-- wybierz słowo --';
+    select.appendChild(optDefault);
+    data.word_bank.forEach(word => {
+      const o = document.createElement('option');
+      o.value = word;
+      o.textContent = word;
+      select.appendChild(o);
+    });
+    const mark = document.createElement('span');
+    mark.className = 'mark';
+    mark.id = 'task2_mark_' + item.num;
+    row.appendChild(label);
+    row.appendChild(select);
+    row.appendChild(mark);
+    container.appendChild(row);
+  });
+
+  document.getElementById('task2_check').onclick = () => {
+    let correctCount = 0;
+    data.items.forEach(item => {
+      const sel = document.getElementById('task2_select_' + item.num);
+      const mark = document.getElementById('task2_mark_' + item.num);
+      const correctWord = data.correct[String(item.num)];
+      sel.classList.remove('correct', 'wrong');
+      if (sel.value === correctWord) {
+        sel.classList.add('correct');
+        mark.textContent = '✅';
+        correctCount++;
+      } else {
+        sel.classList.add('wrong');
+        mark.textContent = '❌ (' + correctWord + ')';
+      }
+    });
+    showResult('task2', correctCount, data.items.length);
+  };
+}
+
+/* ======================= TASK 3 (True/False) ======================= */
+function buildTask3() {
+  const data = tasksData.task3;
+  const container = document.getElementById('task3_items');
+  container.innerHTML = '';
+  const selections = {};
+  data.items.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    const label = document.createElement('div');
+    label.className = 'item-text';
+    label.innerHTML = `<b>${item.num}.</b> ${escapeHtml(item.text)}`;
+    const btnBox = document.createElement('div');
+    btnBox.className = 'tf-buttons';
+    const trueBtn = document.createElement('button');
+    trueBtn.type = 'button';
+    trueBtn.className = 'tf-btn';
+    trueBtn.textContent = 'TRUE';
+    const falseBtn = document.createElement('button');
+    falseBtn.type = 'button';
+    falseBtn.className = 'tf-btn';
+    falseBtn.textContent = 'FALSE';
+    trueBtn.onclick = () => {
+      selections[item.num] = 'TRUE';
+      trueBtn.classList.add('selected');
+      falseBtn.classList.remove('selected');
+    };
+    falseBtn.onclick = () => {
+      selections[item.num] = 'FALSE';
+      falseBtn.classList.add('selected');
+      trueBtn.classList.remove('selected');
+    };
+    btnBox.appendChild(trueBtn);
+    btnBox.appendChild(falseBtn);
+    row.appendChild(label);
+    row.appendChild(btnBox);
+    row.dataset.num = item.num;
+    container.appendChild(row);
+  });
+
+  document.getElementById('task3_check').onclick = () => {
+    let correctCount = 0;
+    data.items.forEach(item => {
+      const row = container.querySelector(`[data-num="${item.num}"]`);
+      const [trueBtn, falseBtn] = row.querySelectorAll('.tf-btn');
+      trueBtn.classList.remove('correct', 'wrong');
+      falseBtn.classList.remove('correct', 'wrong');
+      const chosen = selections[item.num];
+      const correctVal = item.correct;
+      const correctBtn = correctVal === 'TRUE' ? trueBtn : falseBtn;
+      correctBtn.classList.add('correct');
+      if (chosen && chosen !== correctVal) {
+        (chosen === 'TRUE' ? trueBtn : falseBtn).classList.add('wrong');
+      }
+      if (chosen === correctVal) correctCount++;
+    });
+    showResult('task3', correctCount, data.items.length);
+  };
+}
+
+/* ======================= TASK 4 (fill text, dropdown A/B/C) ======================= */
+function buildTask4() {
+  const data = tasksData.task4;
+  const container = document.getElementById('task4_text');
+  container.innerHTML = '';
+  data.text_parts.forEach(part => {
+    if (part === '||') {
+      container.appendChild(document.createElement('br'));
+      container.appendChild(document.createElement('br'));
+      return;
+    }
+    if (/^\d+$/.test(part)) {
+      const select = document.createElement('select');
+      select.id = 'task4_select_' + part;
+      const optDefault = document.createElement('option');
+      optDefault.value = '';
+      optDefault.textContent = '(' + part + ')';
+      select.appendChild(optDefault);
+      const letters = ['A', 'B', 'C'];
+      data.options[part].forEach((optText, i) => {
+        const o = document.createElement('option');
+        o.value = letters[i];
+        o.textContent = letters[i] + ') ' + optText;
+        select.appendChild(o);
+      });
+      container.appendChild(select);
+      const mark = document.createElement('span');
+      mark.className = 'mark';
+      mark.id = 'task4_mark_' + part;
+      mark.style.display = 'inline-block';
+      container.appendChild(mark);
+    } else {
+      container.appendChild(document.createTextNode(part));
+    }
+  });
+
+  document.getElementById('task4_check').onclick = () => {
+    let correctCount = 0;
+    const blanks = Object.keys(data.correct);
+    blanks.forEach(num => {
+      const sel = document.getElementById('task4_select_' + num);
+      const mark = document.getElementById('task4_mark_' + num);
+      const correctLetter = data.correct[num];
+      sel.classList.remove('correct', 'wrong');
+      if (sel.value === correctLetter) {
+        sel.classList.add('correct');
+        mark.textContent = '✅';
+        correctCount++;
+      } else {
+        sel.classList.add('wrong');
+        mark.textContent = '❌ (' + correctLetter + ')';
+      }
+    });
+    showResult('task4', correctCount, blanks.length);
+  };
+}
+
+/* ======================= WSPÓLNA FUNKCJA WYNIKU ======================= */
+function showResult(key, correct, total) {
+  const box = document.getElementById(key + '_result');
+  box.classList.remove('good', 'mid', 'bad');
+  const pct = Math.round((correct / total) * 100);
+  box.classList.add(pct === 100 ? 'good' : pct >= 50 ? 'mid' : 'bad');
+  box.textContent = `Wynik: ${correct} / ${total} (${pct}%)`;
+  box.classList.add('show');
+}
+
+buildMatchingTask('task1a');
+buildMatchingTask('task1b');
+buildTask2();
+buildTask3();
+buildTask4();
+
+/* ======================= PART 2 – SILNIK QUIZU ======================= */
+function startQuizP2(originalQuestions) {
+  let questions = originalQuestions.map((q) => ({ ...q })),
+    current = 0,
+    selected = Array(questions.length).fill(null),
+    correctCount = 0,
+    wrongCount = 0;
+
+  const el = (id) => document.getElementById(id + '_p2');
+
+  el('totalCount').textContent = questions.length;
+
+  function render() {
+    const q = questions[current];
+    el('counter').textContent = `Pytanie ${current + 1} / ${questions.length}`;
+    el('scoreBox').textContent = `Wynik: ${correctCount} dobrych, ${wrongCount} złych`;
+    el('bar').style.width = `${((current + 1) / questions.length) * 100}%`;
+    el('question').textContent = q.question;
+    el('answers').innerHTML = '';
+    el('feedback').className = 'feedback';
+    el('feedback').textContent = '';
+    q.answers.forEach((ans, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'answer';
+      btn.innerHTML = `<b>${String.fromCharCode(97 + i)})</b> ${escapeHtml(ans)}`;
+      btn.onclick = () => choose(i);
+      if (selected[current] !== null) {
+        btn.disabled = true;
+        if (i === q.correct) btn.classList.add('correct');
+        if (i === selected[current] && i !== q.correct) btn.classList.add('wrong');
+      }
+      el('answers').appendChild(btn);
+    });
+    if (selected[current] !== null) showFeedback(selected[current] === q.correct);
+    el('prevBtn').disabled = current === 0;
+    el('nextBtn').textContent = current === questions.length - 1 ? 'Koniec' : 'Następne';
+    updateStats();
+  }
+
+  function choose(i) {
+    if (selected[current] !== null) return;
+    selected[current] = i;
+    if (i === questions[current].correct) correctCount++;
+    else wrongCount++;
+    render();
+  }
+
+  function showFeedback(ok) {
+    const f = el('feedback');
+    f.className = 'feedback ' + (ok ? 'ok' : 'bad');
+    f.textContent = ok ? '✅ Dobra odpowiedź!' : '❌ Zła odpowiedź!';
+  }
+
+  function updateStats() {
+    el('good').textContent = correctCount;
+    el('bad').textContent = wrongCount;
+    const done = correctCount + wrongCount;
+    el('percent').textContent = done ? Math.round((correctCount / done) * 100) + '%' : '0%';
+  }
+
+  el('nextBtn').onclick = () => {
+    if (current < questions.length - 1) {
+      current++;
+      render();
+    } else {
+      alert(`Koniec! Wynik: ${correctCount}/${questions.length}`);
+    }
+  };
+
+  el('prevBtn').onclick = () => {
+    if (current > 0) {
+      current--;
+      render();
+    }
+  };
+
+  el('restartBtn').onclick = () => {
+    selected = Array(questions.length).fill(null);
+    correctCount = 0;
+    wrongCount = 0;
+    current = 0;
+    render();
+  };
+
+  el('shuffleBtn').onclick = () => {
+    for (let i = questions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
+    selected = Array(questions.length).fill(null);
+    correctCount = 0;
+    wrongCount = 0;
+    current = 0;
+    render();
+  };
+
+  el('gotoBtn').onclick = () => {
+    const nr = parseInt(el('gotoQuestion').value);
+    if (!isNaN(nr) && nr >= 1 && nr <= questions.length) {
+      current = nr - 1;
+      render();
+    } else {
+      alert('Podaj numer od 1 do ' + questions.length);
+    }
+  };
+
+  el('gotoQuestion').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') el('gotoBtn').click();
+  });
+
+  render();
+}
+
+startQuizP2(questionsPart2);
+
+    </script>
+  </body>
+</html>
